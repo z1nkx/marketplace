@@ -196,17 +196,22 @@ export default function TokenPage({ nft, contractMetadata }: Props) {
           </div>
 
           <div className={styles.listingContainer}>
-            {contractMetadata && (
-              <div className={styles.contractMetadataContainer}>
-                <MediaRenderer
-                  src={contractMetadata.image}
-                  className={styles.collectionImage}
-                />
-                <p className={styles.collectionName}>{contractMetadata.name}</p>
+              <h3 className={styles.descriptionTitle}>Description</h3>
+                <p className={styles.description}>{nft?.metadata.description}</p>
+
+                <h3 className={styles.descriptionTitle}>Attributes:</h3>
+
+                <div className={styles.traitsContainer}>
+              {Array.isArray(nft?.metadata) &&
+                nft?.metadata.map((trait: any, index: number) => (
+              <div className={styles.traitContainer} key={index}>
+              <p className={styles.traitName}>{trait.trait_type}</p>
+              <p className={styles.traitValue}>
+                {trait.value?.toString() || ""}
+               </p>
               </div>
-            )}
-            <h1 className={styles.title}>{nft.metadata.name}</h1>
-            <p className={styles.collectionName}>Token ID #{nft.metadata.id}</p>
+              ))}
+            </div>
 
             <Link
               href={`/profile/${nft.owner}`}
